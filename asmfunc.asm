@@ -1,26 +1,45 @@
-section .data
-    var1 dq 255.0                ; constant to be used later
+﻿; convert.asm
+; Compile with: nasm -f elf64 convert.asm -o convert.o
 
 section .text
-    bits 64
-    default rel
-    global refactor_pixel
+    global convert_image
 
-refactor_pixel:
-    ; Windows x64 calling convention:
-    ; rcx  - int param
-    ; xmm0 - return dpuble float
+; void convert_image(uint8_t *input, double *output, int height, int width)
+convert_image:
+    ; Arguments:
+    ; rdi = input pointer (uint8_t*)
+    ; rsi = output pointer (double*)
+    ; rdx = height
+    ; rcx = width
 
-    ; convert long long int to double float
-    cvtsi2sd xmm1, rcx           ; xmm1 = (double)rcx
+    push rbp
+    mov rbp, rsp
+    push rbx
 
-    ; Load 255.0 into xmm0
-    movsd xmm0, [var1]              ; move 255.0 in a float register
+    ; Calculate total pixels: height * width → r8
+    imul r8, rdx, rcx      ; r8 = total pixels
+    xor r9, r9             ; r9 = index = 0
 
-    ; Divide: xmm1 / xmm0
-    divsd xmm1, xmm0             ; xmm1 = rcx / 255.0
+    movsd xmm1, qword [rel divisor] ; xmm1 = 255.0
 
-    ; Move result to return register
-    movaps xmm0, xmm1
+.loop:
+    cmp r9, r8
+    jge .done
 
+    ; Load uint8_t input[r9] → zero-extend to eax
+    movzx eax, byte [rdi + r9]
+    cvtsi2sd xmm0, eax       ; xmm0 = (double)input[r9]
+    divsd xmm0, xmm1         ; xmm0 /= 255.0
+    movsd [rsi + r9*8], xmm0 ; output[r9] = result
+
+    inc r9
+    jmp .loop
+
+.done:
+    pop rbx
+    pop rbp
     ret
+
+section .data
+    divisor: dq 255.0
+    
