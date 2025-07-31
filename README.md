@@ -10,6 +10,7 @@ After completing 30 consecutive runs using printf instead of fprintf, it took ar
 While fprintf which took under around 2 seconds to complete running and creating a file with the output.
 
 Running time for 1000x1000 - fprintf into a file
+
 0.031
 0.035
 0.038
@@ -42,6 +43,7 @@ Running time for 1000x1000 - fprintf into a file
 0.044
 
 Running time for 1000x1000 - printf into command line (which under circumstances with large inputs, would truncate earlier values)
+
 0.089
 0.115 
 0.093 
