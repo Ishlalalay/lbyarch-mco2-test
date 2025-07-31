@@ -9,7 +9,7 @@ If one were to use printf rather than printing straight to a file using fprintf,
 After completing 30 consecutive runs using printf instead of fprintf, it took around 18 minutes just for printf to be rendered.
 While fprintf which took under around 2 seconds to complete running and creating a file with the output.
 
-Running time for 1000x1000 - fprintf into a file
+Running time for 1000x1000 - fprintf into a file | avg time = ~0.042(0.041566666666667)
 
 0.031
 0.035
@@ -42,7 +42,7 @@ Running time for 1000x1000 - fprintf into a file
 0.044
 0.044
 
-Running time for 1000x1000 - printf into command line (which under circumstances with large inputs, would truncate earlier values)
+Running time for 1000x1000 - printf into command line (which under circumstances with large inputs, would truncate earlier values) | avg time = ~0.087(0.088666666666667)
 
 0.089
 0.115 
