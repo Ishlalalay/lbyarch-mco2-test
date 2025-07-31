@@ -36,7 +36,18 @@ int main(int argc, char* argv[]) {
 	clock_t start, end;
 	double cpu_time_used = 0;
 
-
+	for (i = 0; i < area; i++) {					// calculate and print new value for pixels
+		start = clock();
+		new_pixel = refactor_pixel(pixels[i]);		// assembly function for calculation
+		end = clock();
+		//printf("%.2f ", new_pixel);
+		cpu_time_used += ((double)(end - start)) / CLOCKS_PER_SEC;
+		fprintf(out, "%.2f ", new_pixel);
+		if ((i + 1) % width == 0) {
+			//printf("\n");
+			fprintf(out, "\n");
+		}
+	}
 
 	printf("Execution time: %.3f seconds\n", cpu_time_used);
 
