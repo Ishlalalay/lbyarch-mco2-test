@@ -4,9 +4,9 @@ section .data
 section .text
     bits 64
     default rel
-    global refactor_pixel
+    global imgCvtGrayIntToDouble
 
-refactor_pixel:
+imgCvtGrayIntToDouble:
     ; Windows x64 calling convention:
     ; rcx  - int param
     ; xmm0 - return dpuble float
