@@ -3,7 +3,7 @@
 #include <windows.h>
 #include <time.h>
 
-extern double refactor_pixel(long long int ia1);
+extern double imgCvtGrayIntToDouble(long long int ia1);
 
 int main(int argc, char* argv[]) {
 
@@ -18,19 +18,13 @@ int main(int argc, char* argv[]) {
 	long long int area = height * width;			// get area of image, for loop counter and size of pointer needed
 
 	pixels = (long long int*)malloc(area * sizeof(long long int));
-	// alloc space for pixels to be stored
-
+													// alloc space for pixels to be stored
+		
 	for (int i = 0; i < area; i++) {				// collect input in loop
 		if ((i + 1) % width == 0)
 			scanf_s("%lld ", &pixels[i]);
-		else
+		else 
 			scanf_s("%lld, ", &pixels[i]);
-	}
-
-	FILE* out = fopen("converted_output.txt", "w");
-	if (!out) {
-		perror("Error creating output file");
-		return 1;
 	}
 
 	clock_t start, end;
@@ -38,18 +32,15 @@ int main(int argc, char* argv[]) {
 
 	for (i = 0; i < area; i++) {					// calculate and print new value for pixels
 		start = clock();
-		new_pixel = refactor_pixel(pixels[i]);		// assembly function for calculation
+		new_pixel = imgCvtGrayIntToDouble(pixels[i]);		// assembly function for calculation
 		end = clock();
-		//printf("%.2f ", new_pixel);
 		cpu_time_used += ((double)(end - start)) / CLOCKS_PER_SEC;
-		fprintf(out, "%.2f ", new_pixel);
-		if ((i + 1) % width == 0) {
-			//printf("\n");
-			fprintf(out, "\n");
-		}
+		printf("%.2f ", new_pixel);
+		if ((i + 1) % width == 0)
+			printf("\n");
 	}
-
-	printf("Execution time: %.3f seconds\n", cpu_time_used);
+	
+	printf("Execution time: %.6f seconds\n", cpu_time_used);
 
 	return 0;
 }
